@@ -1,0 +1,13 @@
+services:
+  twitch-bot:
+    image: ghcr.io/your-github-username/twitch-bot:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  watchtower:
+    image: containrrr/watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
