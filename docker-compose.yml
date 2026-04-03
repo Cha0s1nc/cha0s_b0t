@@ -1,7 +1,6 @@
 services:
   twitch-bot:
-    image: ghcr.ioCha0s1nc/cha0s_b0t
-    :latest
+    image: ghcr.io/Cha0s1nc/cha0s_b0t:latest
     restart: unless-stopped
     env_file:
       - .env
