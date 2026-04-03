@@ -21,4 +21,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/your-github-username/twitch-bot:latest
+          tags: ghcr.io/cha0s1nc/cha0s_b0t:latest
