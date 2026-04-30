@@ -19,6 +19,22 @@ client.connect().catch(console.error);
 
 const isMod = (tags) => tags.mod || tags['user-type'] === 'mod' || tags.badges?.broadcaster;
 
+// --- Listener ping ---
+async function pingListener() {
+  try {
+    await fetch(`${LISTENER_URL}/ping`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
+    });
+  } catch {
+    // Listener not reachable, will retry
+  }
+}
+
+pingListener();
+setInterval(pingListener, 30000);
+
 // --- Keywords config ---
 
 function loadKeywords() {
