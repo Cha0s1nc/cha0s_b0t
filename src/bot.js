@@ -2,8 +2,6 @@ require('dotenv').config();
 const tmi = require('tmi.js');
 const fs = require('fs');
 const path = require('path');
-const fs = require('fs');
-const path = require('path');
 
 const LISTENER_URL = process.env.LISTENER_URL || 'http://localhost:3000';
 const KEYWORDS_FILE = process.env.KEYWORDS_FILE || '/data/keywords.json';
@@ -69,14 +67,9 @@ client.on('message', async (channel, tags, message, self) => {
 
   const msg = message.trim();
   const msgLower = msg.toLowerCase();
-  const msg = message.trim();
-  const msgLower = msg.toLowerCase();
   const user = tags['display-name'];
   const mod = isMod(tags);
-  const mod = isMod(tags);
 
-  // !hello
-  if (msgLower === '!hello') {
   // !hello
   if (msgLower === '!hello') {
     client.say(channel, `Hey ${user}!`);
@@ -105,12 +98,7 @@ client.on('message', async (channel, tags, message, self) => {
 
   // !scene <n> — mod only
   if (msgLower.startsWith('!scene ') && mod) {
-  // !scene <n> — mod only
-  if (msgLower.startsWith('!scene ') && mod) {
     const sceneName = msg.split(' ').slice(1).join(' ');
-    const result = await sendToListener('/scene', { scene: sceneName });
-    if (!result.ok) {
-      client.say(channel, `@${user} Could not switch scene: ${result.error}`);
     const result = await sendToListener('/scene', { scene: sceneName });
     if (!result.ok) {
       client.say(channel, `@${user} Could not switch scene: ${result.error}`);
@@ -120,14 +108,7 @@ client.on('message', async (channel, tags, message, self) => {
   // !source <n> <on|off> — mod only
   if (msgLower.startsWith('!source ') && mod) {
     const parts = msgLower.split(' ');
-  // !source <n> <on|off> — mod only
-  if (msgLower.startsWith('!source ') && mod) {
-    const parts = msgLower.split(' ');
     const sourceName = parts[1];
-    if (!parts[2] || !['on', 'off'].includes(parts[2])) {
-      client.say(channel, `@${user} Usage: !source <name> <on|off>`);
-      return;
-    }
     if (!parts[2] || !['on', 'off'].includes(parts[2])) {
       client.say(channel, `@${user} Usage: !source <name> <on|off>`);
       return;
@@ -253,11 +234,9 @@ client.on('message', async (channel, tags, message, self) => {
 client.on('subscription', (channel, username) => {
   client.say(channel, `Thanks for subscribing, ${username}! PogChamp`);
   sendToListener('/sound', { sound: 'sub' });
-  sendToListener('/sound', { sound: 'sub' });
 });
 
 client.on('raided', (channel, username, viewers) => {
   client.say(channel, `Welcome in ${username} and your ${viewers} raiders!`);
-  sendToListener('/sound', { sound: 'raid' });
   sendToListener('/sound', { sound: 'raid' });
 });
