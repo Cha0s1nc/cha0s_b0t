@@ -19,7 +19,7 @@ client.connect().catch(console.error);
 
 const isMod = (tags) => tags.mod || tags['user-type'] === 'mod' || tags.badges?.broadcaster;
 
-// --- Listener ping ---
+//Listener Check
 async function pingListener() {
   try {
     await fetch(`${LISTENER_URL}/ping`, {
@@ -28,7 +28,7 @@ async function pingListener() {
       body: JSON.stringify({})
     });
   } catch {
-    // Listener not reachable, will retry
+    //Retry after Listener fails to ping
   }
 }
 
@@ -136,12 +136,12 @@ client.on('message', async (channel, tags, message, self) => {
     }
   }
 
-  // !run <scriptname> — mod only
+  // !run <url> — mod only
   if (msgLower.startsWith('!run ') && mod) {
-    const scriptName = msgLower.split(' ')[1];
-    const result = await sendToListener('/run', { script: scriptName });
+    const scriptUrl = msg.split(' ')[1];
+    const result = await sendToListener('/run', { script: scriptUrl });
     if (!result.ok) {
-      client.say(channel, `@${user} Could not run script: ${result.error}`);
+      client.say(channel, `@${user} Script failed!`);
     }
   }
 
