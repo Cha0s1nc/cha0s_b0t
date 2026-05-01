@@ -19,7 +19,7 @@ client.connect().catch(console.error);
 
 const isMod = (tags) => tags.mod || tags['user-type'] === 'mod' || tags.badges?.broadcaster;
 
-//Listener Check
+// --- Listener ping ---
 async function pingListener() {
   try {
     await fetch(`${LISTENER_URL}/ping`, {
@@ -28,7 +28,7 @@ async function pingListener() {
       body: JSON.stringify({})
     });
   } catch {
-    //Retry after Listener fails to ping
+    // Retry after Listener fails to ping
   }
 }
 
@@ -228,6 +228,19 @@ client.on('message', async (channel, tags, message, self) => {
     client.say(channel, list.length ? `Keywords: ${list}` : 'No keywords set');
   }
 
+  // !record <start|stop> — mod only
+  if (msgLower.startsWith('!record ') && mod) {
+    const action = msgLower.split(' ')[1];
+    if (!['start', 'stop'].includes(action)) {
+      client.say(channel, `@${user} Usage: !record <start|stop>`);
+      return;
+    }
+    const result = await sendToListener('/recording', { action });
+    if (!result.ok) {
+      client.say(channel, `@${user} Could not ${action} recording: ${result.error}`);
+    }
+  }
+
   // --- Keyword matching — everyone ---
   const now = Date.now();
   for (const [keyword, cfg] of Object.entries(keywords)) {
@@ -255,4 +268,21 @@ client.on('subscription', (channel, username) => {
 client.on('raided', (channel, username, viewers) => {
   client.say(channel, `Welcome in ${username} and your ${viewers} raiders!`);
   sendToListener('/sound', { sound: 'raid' });
+});
+
+// !killswitch — whisper only, channel account only
+client.on('whisper', async (from, tags, message, self) => {
+  if (self) return;
+  const msg = message.trim().toLowerCase();
+  const sender = tags['display-name']?.toLowerCase();
+  const authorizedUser = process.env.TWITCH_CHANNEL?.toLowerCase();
+
+  if (msg === '!killswitch' && sender === authorizedUser) {
+    const result = await sendToListener('/killswitch', {});
+    if (!result.ok) {
+      client.whisper(from, `Killswitch failed: ${result.error}`);
+    } else {
+      client.whisper(from, 'Stream and recording stopped.');
+    }
+  }
 });

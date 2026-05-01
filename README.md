@@ -74,6 +74,8 @@ The bot will connect to your Twitch channel automatically. Watchtower will pull 
 |---------|-------------|---------|
 | `!scene <name>` | Switch to an OBS scene | `!scene Gaming` |
 | `!source <name> <on\|off>` | Toggle an OBS source visible or hidden | `!source webcam on` |
+| `!record <start/stop>` | Starts/stops recording on OBS | `!record start` |
+| `!killswitch` | Stops all streams / recordings through OBS, triggered only when bot is whispered by account defined in TWITCH_CHANNEL .env variable. | `!killswitch` |
 
 ---
 
@@ -83,7 +85,7 @@ The bot will connect to your Twitch channel automatically. Watchtower will pull 
 |---------|-------------|---------|
 | `!sound <name>` | Play a sound by name | `!sound airhorn` |
 
-Sounds are served by the cha0s_listener app. Add sound files there.
+Sounds are served by the cha0s_listener app or via a link ex. Cloudflare R2 storage.
 
 ---
 
@@ -93,7 +95,7 @@ Sounds are served by the cha0s_listener app. Add sound files there.
 |---------|-------------|---------|
 | `!run <scriptname>` | Run a shell script on the stream PC | `!run lights_on` |
 
-Scripts live in the `scripts/` folder of the cha0s_listener app as `.sh` files.
+Scripts are run through scripts hosted online, domain allowlist configured in Listener (WARNING IF NO ALLOWED DOMAINS ARE SET, ALL ARE ALLOWED - VERY NOT RECOMMENDED)
 
 ---
 
