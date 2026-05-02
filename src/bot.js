@@ -230,7 +230,7 @@ client.on('message', async (channel, tags, message, self) => {
 
   // !record <start|stop> — mod only
   if (msgLower.startsWith('!record ') && mod) {
-    const action = msgLower.split(' ')[1];
+    const action = msg.split(' ')[1];
     if (!['start', 'stop'].includes(action)) {
       client.say(channel, `@${user} Usage: !record <start|stop>`);
       return;
