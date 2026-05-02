@@ -105,7 +105,7 @@ client.on('message', async (channel, tags, message, self) => {
 
   // !sound <n> — mod only
   if (msgLower.startsWith('!sound ') && mod) {
-    const soundName = msgLower.split(' ')[1];
+    const soundName = msg.split(' ')[1];
     const result = await sendToListener('/sound', { sound: soundName });
     if (!result.ok) {
       client.say(channel, `@${user} Could not play sound "${soundName}": ${result.error}`);
